@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminAuthController;
 
+use App\Http\Controllers\Auth\AdminAuthController;
+
+use App\Http\Controllers\AdminController;
 // 		
 
 /*
@@ -18,20 +20,18 @@ use App\Http\Controllers\Admin\AdminAuthController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+}); 
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::get('admin/login', [App\Http\Controllers\Admin\AdminAuthController::class, 'getLogin'])->name('admin');
+Route::get('admin/login', [AdminAuthController::class, 'getLogin'])->name('adminLogin');
 
-Route::prefix('/admin')->name('admin.')->namespace('Admin')->group(function(){
+Route::post('admin/login', [AdminAuthController::class, 'postLogin'])->name('adminLoginPost');
 
-	Route::get('admin/login', [App\Http\Controllers\Admin\AdminController::class,'index']);
+Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('adminLogout');
 
-	Route::get('login', [App\Http\Controllers\Admin\AdminController::class,'login']);
-
-	Route::get('logout', [App\Http\Controllers\Admin\AdminController::class,'logout']);
-
+Route::group(['prefix' => 'admin','middleware' => 'adminauth'], function () {
+	// Admin Dashboard
+	Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });

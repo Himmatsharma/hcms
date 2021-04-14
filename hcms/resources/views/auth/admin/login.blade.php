@@ -1,9 +1,9 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Admin</title>
+<title>Laravel 8 Admin Auth - laravelcode.com</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -13,7 +13,7 @@
 .login-form {
     width: 340px;
     margin: 50px auto;
-  	font-size: 15px;
+    font-size: 15px;
 }
 .login-form form {
     margin-bottom: 15px;
@@ -36,9 +36,11 @@
 </head>
 <body>
 <div class="login-form">
+
     <form action="{{ route('adminLoginPost') }}" method="post">
-    	{!! csrf_field() !!}
-        <h2 class="text-center">Admin Login</h2>
+        
+        {!! csrf_field() !!}
+        <h2 class="text-center">Log in</h2>
         @if(\Session::get('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ \Session::get('success') }}

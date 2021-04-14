@@ -1,30 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Validator;
 use Session;
-use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use App\Http\Requests;
-// use App\\Models\Admin;
+use App\Models\Admin;
 
 class AdminAuthController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
 
-    use AuthenticatesUsers;
+	
+    // use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -55,19 +46,25 @@ class AdminAuthController extends Controller
      */
     public function postLogin(Request $request)
     {
+
         $this->validate($request, [
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
+
+        
         if (auth()->guard('admin')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')]))
         {
             $user = auth()->guard('admin')->user();
             
             \Session::put('success','You are Login successfully!!');
+
             return redirect()->route('dashboard');
             
         } else {
+
             return back()->with('error','your username and password are wrong.');
+
         }
 
     }
@@ -84,4 +81,5 @@ class AdminAuthController extends Controller
         \Sessioin::put('success','You are logout successfully');        
         return redirect(route('adminLogin'));
     }
+
 }
